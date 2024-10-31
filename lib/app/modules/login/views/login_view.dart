@@ -10,115 +10,142 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("assets/images/login_logo.png"),
-              SizedBox(
-                height: 10,
+        backgroundColor: Color(0xffeef2ff),
+        body: SafeArea(
+          child: Stack(children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Image.asset(
+                "assets/images/Vector5.png",
+                fit: BoxFit.cover,
               ),
-              Text(
-                "Welcome To Azalea",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset(
+                "assets/images/Vector6.png",
+                fit: BoxFit.cover,
               ),
-              SizedBox(
-                height: 10,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset(
+                "assets/images/Vector7.png",
+                fit: BoxFit.cover,
               ),
-              Container(
-                width: MediaQuery.sizeOf(context).width / 1.7,
+            ),
+            Center(
+              child: SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Username",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: 40,
-                      child: TextField(
-                        controller: controller.usernameController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          labelText: 'Username here',
-                        ),
-                      ),
-                    ),
+                    Image.asset("assets/images/login_logo.png"),
                     SizedBox(
                       height: 10,
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Password",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      height: 40,
-                      child: TextField(
-                        obscureText: true,
-                        controller: controller.passwordController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          labelText: "Password here",
-                        ),
+                    Text(
+                      "Welcome To Azalea",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Container(
-                      height: 40,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.loginWithUsername();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            backgroundColor: Colors.purple[300],
-                            foregroundColor: Colors.white),
-                        child: Text("Login"),
+                      width: MediaQuery.sizeOf(context).width / 1.7,
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Username",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            height: 40,
+                            child: TextField(
+                              controller: controller.usernameController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                labelText: 'Username here',
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Password",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            height: 40,
+                            child: TextField(
+                              obscureText: true,
+                              controller: controller.passwordController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                labelText: "Password here",
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 40,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                controller.login(
+                                    controller.usernameController.text,
+                                    controller.passwordController.text);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                  backgroundColor: Colors.purple[300],
+                                  foregroundColor: Colors.white),
+                              child: Text("Login"),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Don't have an account?"),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.offNamed(Routes.REGISTER);
+                                  },
+                                  child: Text("Sign In"))
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Don't have an account?"),
-                        TextButton(
-                            onPressed: () {
-                              Get.offNamed(Routes.REGISTER);
-                            },
-                            child: Text("Sign In"))
-                      ],
-                    ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          ]),
+        ));
   }
 }
