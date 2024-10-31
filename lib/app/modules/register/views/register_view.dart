@@ -206,11 +206,6 @@ class RegisterView extends GetView<RegisterController> {
                                   controller.usernameController.text,
                                   controller.passwordController.text,
                                   controller.confirmPasswordController.text);
-                              controller.saveData(
-                                  controller.usernameController.text,
-                                  controller.nameController.text,
-                                  controller.addressController.text,
-                                  controller.phoneController.text.toString());
                             },
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(

@@ -20,49 +20,62 @@ class RegisterController extends GetxController {
       Get.snackbar("Error", "Password tidak cocok");
     } else {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+        UserCredential userCredential =
+            await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
         Get.snackbar('Success', 'User created successfully');
-        userCredential.user!.sendEmailVerification();
+        await userCredential.user!.sendEmailVerification();
+
+        saveData(
+          userCredential.user!.uid,
+          nameController.text,
+          addressController.text,
+          phoneController.text,
+          email,
+        );
+
         Get.defaultDialog(
-            title: 'Verify your email',
-            middleText:
-                'Please verify your email to continue. We have sent you an email verification link.',
-            textConfirm: 'OK',
-            textCancel: 'Resend',
-            confirmTextColor: Colors.white,
-            onConfirm: () {
-              Get.offAllNamed(Routes.LOGIN);
-            },
-            onCancel: () {
-              userCredential.user!.sendEmailVerification();
-              Get.snackbar('Success', 'Email verification link sent');
-            });
+          title: 'Verify your email',
+          middleText:
+              'Please verify your email to continue. We have sent you an email verification link.',
+          textConfirm: 'OK',
+          textCancel: 'Resend',
+          confirmTextColor: Colors.white,
+          onConfirm: () {
+            Get.offAllNamed(Routes.LOGIN);
+          },
+          onCancel: () async {
+            await userCredential.user!.sendEmailVerification();
+            Get.snackbar('Success', 'Email verification link sent');
+          },
+        );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           Get.snackbar('Error', 'The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
           Get.snackbar('Error', 'The account already exists for that email.');
         }
-        print(e.code);
       } catch (e) {
         print(e);
       }
     }
   }
 
-  void saveData(String email, String nama, String alamat, String phone) async {
+  void saveData(String uid, String name, String address, String phone,
+      String email) async {
     try {
-      await firestore.collection("users").add({
+      await firestore.collection('users').doc(uid).set({
+        'name': name,
+        'address': address,
+        'phoneNumber': phone,
         'email': email,
-        'name': nama,
-        'address': alamat,
-        'phoneNumber': phone
       });
-      Get.back();
       Get.snackbar('Success', 'Data added successfully');
     } catch (e) {
-      print(e);
+      print("Error saving data: $e");
     }
   }
 
